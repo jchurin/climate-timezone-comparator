@@ -75,7 +75,7 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
           <Nav />
         </nav>
 
@@ -86,7 +86,7 @@ export function Header() {
             aria-label="Search cities"
           >
             <Search className="size-4" />
-            <span className="hidden lg:inline">Search city…</span>
+            <span className="hidden sm:inline">Search city…</span>
             <kbd className="hidden rounded-md border border-line px-1.5 text-[10px] lg:inline">⌘K</kbd>
           </button>
 
@@ -116,7 +116,7 @@ export function Header() {
       </div>
 
       {/* Mobile nav */}
-      <nav className="no-scrollbar flex gap-1 overflow-x-auto px-4 pb-2 md:hidden" aria-label="Main mobile">
+      <nav className="no-scrollbar flex gap-1 overflow-x-auto px-4 pb-2 sm:px-6 lg:hidden" aria-label="Main mobile">
         <Nav mobile />
       </nav>
     </header>

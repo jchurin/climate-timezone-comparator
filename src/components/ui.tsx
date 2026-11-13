@@ -95,8 +95,8 @@ export function Segmented<T extends string>({
 
 export function SectionTitle({ icon, children, action }: { icon?: React.ReactNode; children: React.ReactNode; action?: React.ReactNode }) {
   return (
-    <div className="mb-4 flex items-center justify-between gap-3">
-      <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-muted">
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+      <h2 className="flex items-center gap-2 whitespace-nowrap text-sm font-semibold uppercase tracking-wider text-muted">
         {icon}
         {children}
       </h2>

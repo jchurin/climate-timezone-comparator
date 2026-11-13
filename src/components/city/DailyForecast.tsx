@@ -23,7 +23,7 @@ export function DailyForecast({ fc, tz }: { fc: Forecast; tz: string }) {
   const pct = (v: number) => ((v - lo) / (hi - lo || 1)) * 100;
 
   return (
-    <section className="card rise p-5 sm:p-6">
+    <section className="card rise p-4 sm:p-6">
       <SectionTitle icon={<CalendarDays className="size-4" />}>7-day forecast</SectionTitle>
       <ul className="divide-y divide-line">
         {d.time.map((t, i) => {
@@ -32,13 +32,18 @@ export function DailyForecast({ fc, tz }: { fc: Forecast; tz: string }) {
           const rain = d.precipitation_probability_max[i];
           const label = i === 0 ? "Today" : i === 1 ? "Tomorrow" : formatDate(t * 1000, tz, "weekday");
           return (
-            <li key={t} className="grid grid-cols-[5.5rem_2.75rem_3rem_2.75rem_1fr_2.75rem] items-center gap-2 py-2.5 sm:grid-cols-[7rem_3rem_3.5rem_3rem_1fr_3rem]">
-              <span className="font-medium">
+            <li key={t} className="grid grid-cols-[minmax(4.5rem,1.3fr)_2.5rem_2.5rem_minmax(1.5rem,1fr)_2.5rem] items-center gap-2 py-2.5 sm:grid-cols-[7rem_3rem_3.5rem_3rem_1fr_3rem]">
+              <span className="min-w-0 truncate text-sm font-medium sm:text-base">
                 {label}
                 <span className="block text-xs font-normal text-faint">{formatDate(t * 1000, tz, "short").split(", ").slice(1).join(", ")}</span>
               </span>
-              <WeatherIcon code={d.weather_code[i]} size={40} />
-              <span className="text-xs font-medium text-sky-600 dark:text-sky-300" title="Chance of precipitation">
+              <span className="flex flex-col items-center">
+                <WeatherIcon code={d.weather_code[i]} size={40} className="size-9 sm:size-10" />
+                {rain != null && rain >= 10 && (
+                  <span className="-mt-1 text-[10px] font-medium text-sky-600 sm:hidden dark:text-sky-300">{rain}%</span>
+                )}
+              </span>
+              <span className="hidden text-xs font-medium text-sky-600 sm:block dark:text-sky-300" title="Chance of precipitation">
                 {rain != null && rain >= 10 ? `☔ ${rain}%` : ""}
               </span>
               <span className="text-right text-muted tabular">{fmtTemp(min, s)}</span>
@@ -59,7 +64,7 @@ export function DailyForecast({ fc, tz }: { fc: Forecast; tz: string }) {
                   />
                 )}
               </span>
-              <span className="font-semibold tabular">{fmtTemp(max, s)}</span>
+              <span className="text-right font-semibold tabular sm:text-left">{fmtTemp(max, s)}</span>
             </li>
           );
         })}

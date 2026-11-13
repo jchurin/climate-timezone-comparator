@@ -324,10 +324,10 @@ function CompareTable({ cities, forecasts, settings: s }: { cities: City[]; fore
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full min-w-[640px] text-sm">
+      <table className="w-full min-w-[560px] text-sm">
         <thead>
           <tr className="border-b border-line text-left">
-            <th className="w-44 px-5 py-3 font-medium text-muted sm:px-6" scope="col">
+            <th className="sticky left-0 z-10 w-28 bg-surface-solid px-4 py-3 font-medium text-muted sm:w-44 sm:px-6" scope="col">
               <span className="sr-only">Metric</span>
             </th>
             {cities.map((c, i) => (
@@ -343,7 +343,7 @@ function CompareTable({ cities, forecasts, settings: s }: { cities: City[]; fore
         <tbody>
           {rows.map((r) => (
             <tr key={r.key} className="border-b border-line/70 last:border-0 hover:bg-surface-2">
-              <th scope="row" className="px-5 py-3 text-left font-medium text-muted sm:px-6">{r.label}</th>
+              <th scope="row" className="sticky left-0 z-10 bg-surface-solid px-4 py-3 text-left font-medium text-muted sm:px-6">{r.label}</th>
               {cities.map((c, i) => (
                 <td key={c.id} className="px-4 py-3 tabular">
                   <span className="inline-flex flex-wrap items-center gap-2">

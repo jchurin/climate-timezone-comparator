@@ -109,7 +109,7 @@ function Converter() {
           <p className="mb-2 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-accent">
             <ArrowLeftRight className="size-4" /> Time converter
           </p>
-          <h1 className="text-4xl font-semibold tracking-tight">Convert time across zones</h1>
+          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Convert time across zones</h1>
           <p className="mt-2 text-muted">Cities, IANA zones or abbreviations. Daylight saving is handled for city and IANA zones.</p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -122,24 +122,24 @@ function Converter() {
       </header>
 
       {/* Source */}
-      <section className="rise relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-600 p-6 text-white shadow-2xl shadow-indigo-600/25 sm:p-8">
+      <section className="rise relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-600 p-5 text-white shadow-2xl shadow-indigo-600/25 sm:p-8">
         <div className="pointer-events-none absolute -right-20 -top-24 size-72 rounded-full bg-white/10 blur-2xl" />
         <div className="relative grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <p className="text-sm font-medium uppercase tracking-wider text-white/70">From</p>
             <button onClick={() => setPicker("from")} className="group mt-1 text-left">
-              <span className="text-3xl font-semibold underline decoration-white/30 decoration-2 underline-offset-8 group-hover:decoration-white sm:text-4xl">{from.label}</span>
+              <span className="break-words text-3xl font-semibold underline decoration-white/30 decoration-2 underline-offset-8 group-hover:decoration-white sm:text-4xl">{from.label}</span>
               <span className="mt-2 block text-sm text-white/75">
                 {from.fixed != null ? from.detail : `${fromNames?.long} · ${fmtOffset(zoneOffset(from, at))} · ${from.tz}`}
               </span>
             </button>
-            <p className="mt-6 text-6xl font-semibold tracking-tight tabular sm:text-7xl">{formatZoneTime(from, at, settings.clock)}</p>
+            <p className="mt-6 text-5xl font-semibold tracking-tight tabular min-[400px]:text-6xl sm:text-7xl">{formatZoneTime(from, at, settings.clock)}</p>
             <p className="mt-1 text-white/80">{formatZoneDate(from, at, "long")}</p>
           </div>
 
           <div className="flex flex-col gap-3 rounded-2xl bg-white/10 p-4 ring-1 ring-white/15 backdrop-blur">
-            <div className="flex gap-2">
-              <label className="flex flex-col text-xs font-medium text-white/75">
+            <div className="grid grid-cols-1 gap-2 min-[400px]:grid-cols-2">
+              <label className="flex min-w-0 flex-col text-xs font-medium text-white/75">
                 Date
                 <input
                   type="date"
@@ -148,10 +148,10 @@ function Converter() {
                     const [y, m, d] = e.target.value.split("-").map(Number);
                     if (y && m && d) setWall(y, m - 1, d, w.hour, w.minute);
                   }}
-                  className="mt-1 rounded-xl bg-white/90 px-3 py-2 text-base text-slate-900 outline-none [color-scheme:light]"
+                  className="mt-1 w-full min-w-0 rounded-xl bg-white/90 px-3 py-2 text-base text-slate-900 outline-none [color-scheme:light]"
                 />
               </label>
-              <label className="flex flex-col text-xs font-medium text-white/75">
+              <label className="flex min-w-0 flex-col text-xs font-medium text-white/75">
                 Time
                 <input
                   type="time"
@@ -160,7 +160,7 @@ function Converter() {
                     const [h, mi] = e.target.value.split(":").map(Number);
                     if (Number.isFinite(h) && Number.isFinite(mi)) setWall(w.year, w.month, w.day, h, mi);
                   }}
-                  className="mt-1 rounded-xl bg-white/90 px-3 py-2 text-base text-slate-900 outline-none [color-scheme:light]"
+                  className="mt-1 w-full min-w-0 rounded-xl bg-white/90 px-3 py-2 text-base text-slate-900 outline-none [color-scheme:light]"
                 />
               </label>
             </div>
@@ -210,7 +210,7 @@ function Converter() {
         >
           Converted
         </SectionTitle>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {targets.map((z, i) => {
             const zw = wallClock(z, at);
             const diff = zoneOffset(z, at) - zoneOffset(from, at);
@@ -218,8 +218,8 @@ function Converter() {
             const isDay = zw.hour >= 6 && zw.hour < 18;
             const names = z.tz ? tzNames(z.tz, at) : null;
             return (
-              <article key={z.token} className="card rise group flex items-center gap-4 p-5" style={{ animationDelay: `${i * 50}ms` }}>
-                <MetaIcon name={isDay ? "clear-day" : "clear-night"} size={56} alt={isDay ? "Daytime" : "Night"} />
+              <article key={z.token} className="card rise group flex min-w-0 items-center gap-3 p-4 sm:gap-4 sm:p-5" style={{ animationDelay: `${i * 50}ms` }}>
+                <MetaIcon name={isDay ? "clear-day" : "clear-night"} size={56} className="size-11 sm:size-14" alt={isDay ? "Daytime" : "Night"} />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <h3 className="truncate text-lg font-semibold">{z.label}</h3>
@@ -238,7 +238,7 @@ function Converter() {
                     )}
                   </p>
                 </div>
-                <div className="flex flex-col items-end gap-2">
+                <div className="flex shrink-0 flex-col items-end gap-2">
                   <span className="rounded-full bg-accent-soft px-2.5 py-1 text-xs font-semibold text-accent tabular">{diffLabel(diff)}</span>
                   <div className="flex gap-1 opacity-70 transition group-hover:opacity-100">
                     <button onClick={() => swap(z)} title="Use as source" aria-label={`Use ${z.label} as source`} className="grid size-8 place-items-center rounded-lg text-muted hover:bg-surface-2 hover:text-ink">
@@ -262,7 +262,7 @@ function Converter() {
 
       {/* Meeting planner */}
       {targets.length > 0 && (
-        <section className="card rise p-5 sm:p-6">
+        <section className="card rise min-w-0 p-4 sm:p-6">
           <SectionTitle icon={<Users className="size-4" />}>Meeting planner</SectionTitle>
           <p className="-mt-2 mb-4 text-sm text-muted">
             Each column is one hour of {from.label}&apos;s day. Click a column to pick that time. Columns where everyone is in working hours are marked.
@@ -330,7 +330,7 @@ function Planner({
         <tbody>
           {rows.map((z, r) => (
             <tr key={z.token}>
-              <th scope="row" className="sticky left-0 z-10 min-w-28 bg-surface-solid pr-3 text-left text-sm font-medium">
+              <th scope="row" className="sticky left-0 z-10 min-w-20 max-w-28 bg-surface-solid sm:min-w-28 sm:max-w-none pr-3 text-left text-sm font-medium">
                 <span className="block truncate">{z.label}</span>
                 {r === 0 && <span className="block text-[10px] font-normal text-faint">source</span>}
               </th>
