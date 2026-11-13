@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tiempo: weather & time, everywhere
 
-## Getting Started
-
-First, run the development server:
+Next.js 16 app (App Router, Cache Components, Tailwind v4) for live weather, exact local time and time-zone conversion in any city.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev    # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+No API keys needed.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Routes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Route | What it does |
+|---|---|
+| `/` | Dashboard: city search, "use my location", saved cities as live cards (weather + local clock) |
+| `/city/[id]-[name]` | Current weather, hourly & 7-day forecast, conditions, sun arc, exact local time/date/time zone (offset, abbreviation, DST) |
+| `/compare?cities=id,id,…` | Up to 4 cities side by side: 7-day chart (high/low/rain/wind/UV) + detailed comparison table |
+| `/time?from=…&to=…&t=…` | Time-zone converter (cities, IANA zones, abbreviations like EST/GMT/IST) + meeting planner. The URL is shareable |
+| `/settings` | Theme (light/dark/system), °C/°F, wind, precipitation, pressure, distance units, 12/24h clock, saved cities |
 
-## Learn More
+Global: ⌘K / Ctrl+K (or `/`) opens a command palette for searching cities and quick actions. The header has quick °C/°F and theme toggles.
 
-To learn more about Next.js, take a look at the following resources:
+### Time-converter URL tokens
+- `EST`, `GMT`, `IST`… fixed-offset abbreviations
+- `Europe/London` any IANA zone (follows daylight saving)
+- `Europe/London@London` IANA zone with a display label (used for cities)
+- `local` the viewer's own time zone
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Data & assets
+- Weather, geocoding: [Open-Meteo](https://open-meteo.com/) (free, no key). Called from the browser, so each visitor uses their own rate limit
+- "Use my location" reverse geocoding: BigDataCloud free client API
+- Weather icons: [Meteocons](https://github.com/basmilius/weather-icons) by Bas Milius (MIT), copied to `public/weather-icons`
+- Flags: flagcdn.com · Font: Outfit (Google Fonts via `next/font`)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes
+- Settings and saved cities live in `localStorage`, read through `useSyncExternalStore` with server defaults, so there are no hydration mismatches. Clocks render a placeholder until hydrated.
+- An inline script applies the saved theme before first paint (no light/dark flash).
